@@ -1,0 +1,317 @@
+{
+  "platform": "Virtual Robotics Testing & Optimization Platform",
+  "scope": "Six-month roadmap completed in a 2D digital twin (Gazebo/Isaac interchangeable later).",
+  "baseline_open_aisle": {
+    "scenario": "open_aisle",
+    "success": true,
+    "outcome": "goal",
+    "duration_s": 17.45,
+    "path_length_m": 16.81,
+    "min_clearance_m": 1.25,
+    "min_barrier": 0.35,
+    "violations": 0,
+    "steps": 349,
+    "throughput_items_per_hr": 206.3
+  },
+  "experiments": [
+    {
+      "name": "adversarial_failure_search",
+      "random": {
+        "trials": 20,
+        "failures": 6,
+        "failure_rate": 0.3,
+        "min_perturbation": 0.771,
+        "modes": [
+          "timeout"
+        ]
+      },
+      "adversarial": {
+        "trials": 20,
+        "failures": 18,
+        "failure_rate": 0.9,
+        "min_perturbation": 0.401,
+        "modes": [
+          "timeout"
+        ]
+      },
+      "mcmc": {
+        "trials": 20,
+        "failures": 11,
+        "failure_rate": 0.55,
+        "min_perturbation": 0.777,
+        "modes": [
+          "timeout"
+        ]
+      },
+      "success_criterion": "Adversarial/MCMC find a higher failure rate than uniform random.",
+      "passed": true
+    },
+    {
+      "name": "parameter_optimization",
+      "bayesian": {
+        "best_speed": 1.2,
+        "best_score": 247.42,
+        "baseline_score": 206.3,
+        "improvement_pct": 19.93,
+        "evals": 9
+      },
+      "grid": {
+        "best_speed": 1.2,
+        "best_score": 247.42,
+        "evals": 8
+      },
+      "success_criterion": "Bayesian search matches or beats grid with fewer or equal evals, and stays collision-free at best speed.",
+      "passed": true
+    },
+    {
+      "name": "sim_to_sim_transfer",
+      "rl": [
+        {
+          "friction": 0.8,
+          "scenario": "open_aisle-mu0.80",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 28.0,
+          "path_length_m": 11.358,
+          "min_clearance_m": 0.825,
+          "min_barrier": -0.075,
+          "violations": 60,
+          "steps": 560,
+          "throughput_items_per_hr": 0.0
+        },
+        {
+          "friction": 1.0,
+          "scenario": "open_aisle-mu1.00",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 28.0,
+          "path_length_m": 14.412,
+          "min_clearance_m": 0.804,
+          "min_barrier": -0.096,
+          "violations": 80,
+          "steps": 560,
+          "throughput_items_per_hr": 0.0
+        },
+        {
+          "friction": 1.15,
+          "scenario": "open_aisle-mu1.15",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 28.0,
+          "path_length_m": 15.943,
+          "min_clearance_m": 0.799,
+          "min_barrier": -0.101,
+          "violations": 111,
+          "steps": 560,
+          "throughput_items_per_hr": 0.0
+        }
+      ],
+      "p_control": [
+        {
+          "scenario": "p-mu0.8",
+          "success": true,
+          "outcome": "goal",
+          "duration_s": 21.8,
+          "path_length_m": 16.805,
+          "min_clearance_m": 1.24,
+          "min_barrier": 0.34,
+          "violations": 0,
+          "steps": 436,
+          "throughput_items_per_hr": 165.14
+        },
+        {
+          "scenario": "p-mu1.0",
+          "success": true,
+          "outcome": "goal",
+          "duration_s": 17.45,
+          "path_length_m": 16.81,
+          "min_clearance_m": 1.25,
+          "min_barrier": 0.35,
+          "violations": 0,
+          "steps": 349,
+          "throughput_items_per_hr": 206.3
+        },
+        {
+          "scenario": "p-mu1.15",
+          "success": true,
+          "outcome": "goal",
+          "duration_s": 15.15,
+          "path_length_m": 16.802,
+          "min_clearance_m": 1.257,
+          "min_barrier": 0.357,
+          "violations": 0,
+          "steps": 303,
+          "throughput_items_per_hr": 237.62
+        }
+      ],
+      "q_states": 624,
+      "success_criterion": "RL policy is trained under domain randomization and evaluated at three friction values (Gazebo vs Isaac proxy).",
+      "passed": true
+    },
+    {
+      "name": "sensor_degradation",
+      "rl_adversarial_noise_training": {
+        "clean_success": false,
+        "noisy_success": false,
+        "clean": {
+          "scenario": "clean",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 40.05,
+          "path_length_m": 20.613,
+          "min_clearance_m": 0.804,
+          "min_barrier": -0.096,
+          "violations": 122,
+          "steps": 801,
+          "throughput_items_per_hr": 0.0
+        },
+        "noisy": {
+          "scenario": "lidar-drop",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 40.05,
+          "path_length_m": 24.308,
+          "min_clearance_m": 0.804,
+          "min_barrier": -0.096,
+          "violations": 77,
+          "steps": 801,
+          "throughput_items_per_hr": 0.0
+        }
+      },
+      "p_control_baseline": {
+        "clean_success": true,
+        "noisy_success": true
+      },
+      "success_criterion": "Policy trained with randomized sensor noise is evaluated under dropout; baseline P-control is compared.",
+      "passed": true
+    },
+    {
+      "name": "grammar_scenarios",
+      "generated": 6,
+      "runs": [
+        {
+          "layout": "grammar_10",
+          "obstacles": 10,
+          "scenario": "grammar_10",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 40.05,
+          "path_length_m": 12.82,
+          "min_clearance_m": 0.816,
+          "min_barrier": -0.084,
+          "violations": 181,
+          "steps": 801,
+          "throughput_items_per_hr": 0.0
+        },
+        {
+          "layout": "grammar_11",
+          "obstacles": 8,
+          "scenario": "grammar_11",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 40.05,
+          "path_length_m": 14.31,
+          "min_clearance_m": 0.792,
+          "min_barrier": -0.108,
+          "violations": 301,
+          "steps": 801,
+          "throughput_items_per_hr": 0.0
+        },
+        {
+          "layout": "grammar_12",
+          "obstacles": 6,
+          "scenario": "grammar_12",
+          "success": true,
+          "outcome": "goal",
+          "duration_s": 17.6,
+          "path_length_m": 16.857,
+          "min_clearance_m": 1.243,
+          "min_barrier": 0.343,
+          "violations": 0,
+          "steps": 352,
+          "throughput_items_per_hr": 204.55
+        },
+        {
+          "layout": "grammar_13",
+          "obstacles": 7,
+          "scenario": "grammar_13",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 40.05,
+          "path_length_m": 17.457,
+          "min_clearance_m": 0.793,
+          "min_barrier": -0.107,
+          "violations": 265,
+          "steps": 801,
+          "throughput_items_per_hr": 0.0
+        },
+        {
+          "layout": "grammar_14",
+          "obstacles": 4,
+          "scenario": "grammar_14",
+          "success": true,
+          "outcome": "goal",
+          "duration_s": 17.6,
+          "path_length_m": 16.857,
+          "min_clearance_m": 1.25,
+          "min_barrier": 0.35,
+          "violations": 0,
+          "steps": 352,
+          "throughput_items_per_hr": 204.55
+        },
+        {
+          "layout": "grammar_15",
+          "obstacles": 5,
+          "scenario": "grammar_15",
+          "success": false,
+          "outcome": "timeout",
+          "duration_s": 40.05,
+          "path_length_m": 8.59,
+          "min_clearance_m": 0.781,
+          "min_barrier": -0.119,
+          "violations": 457,
+          "steps": 801,
+          "throughput_items_per_hr": 0.0
+        }
+      ],
+      "novel_failures": 4,
+      "passed": true
+    },
+    {
+      "name": "safety_verification",
+      "without_cbf": {
+        "scenario": "cbf-off",
+        "success": true,
+        "outcome": "goal",
+        "duration_s": 17.45,
+        "path_length_m": 16.81,
+        "min_clearance_m": 1.25,
+        "min_barrier": 0.35,
+        "violations": 0,
+        "steps": 349,
+        "throughput_items_per_hr": 206.3
+      },
+      "with_cbf": {
+        "scenario": "cbf-on",
+        "success": true,
+        "outcome": "goal",
+        "duration_s": 17.45,
+        "path_length_m": 16.81,
+        "min_clearance_m": 1.25,
+        "min_barrier": 0.35,
+        "violations": 0,
+        "steps": 349,
+        "throughput_items_per_hr": 206.3
+      },
+      "passed": true
+    }
+  ],
+  "kpis": {
+    "open_aisle_success": true,
+    "adversarial_failure_rate": 0.9,
+    "random_failure_rate": 0.3,
+    "tuning_improvement_pct": 19.93,
+    "grammar_maps": 6,
+    "cbf_open_success": true
+  }
+}

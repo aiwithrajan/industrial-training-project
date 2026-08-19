@@ -1,4 +1,4 @@
-"""Month 1–2 virtual lab: 2D digital twin, navigation, collision checks, logs."""
+"""Virtual Robotics Testing & Optimization Platform (2D digital twin)."""
 
 from virtual_lab.models import Pose, Robot, Scenario, Warehouse
 from virtual_lab.simulator import RunResult, simulate

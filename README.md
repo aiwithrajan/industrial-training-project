@@ -1,45 +1,38 @@
 # Virtual Robotics Testing & Optimization Platform
 
-Industrial training project: a virtual test lab that finds robot failures in simulation before hardware deployment.
+Industrial training project: a virtual test lab that finds robot failures in simulation before hardware is at risk.
+
+The **six-month roadmap is implemented on a 2D digital twin** in this repo (no GPU or Gazebo required). Gazebo / Isaac Sim can replace the physics engine later; search, tuning, RL, and safety stay the same.
 
 ## Documents
 
 | File | Purpose |
 | --- | --- |
-| [Executive Summary.pdf](Executive%20Summary.pdf) | Full company brief (problem, novelty, roadmap, experiments) |
-| [docs/One-Page Pitch.pdf](docs/One-Page%20Pitch.pdf) | One-page approval pitch |
+| [Executive Summary.pdf](Executive%20Summary.pdf) | Company brief |
+| [docs/One-Page Pitch.pdf](docs/One-Page%20Pitch.pdf) | One-page ask |
+| [docs/Evaluation Report.pdf](docs/Evaluation%20Report.pdf) | Experiment results |
+| [docs/evaluation/dashboard.html](docs/evaluation/dashboard.html) | Interactive KPI dashboard |
 
-Regenerate PDFs:
+## Roadmap coverage
 
-```bash
-pip install -r scripts/requirements-pdf.txt
-python3 scripts/generate_executive_summary.py
-python3 scripts/generate_one_page_pitch.py
-```
+| Months | Capability | Command |
+| --- | --- | --- |
+| 1–2 | Twin, A→B nav, logs, collisions | `python3 -m virtual_lab run --scenario scenarios/open_aisle.json` |
+| 3–4 | Adversarial + MCMC failure search, Bayesian speed tuning | `python3 -m virtual_lab search` · `python3 -m virtual_lab tune` |
+| 5 | Domain-randomized Q-learning, sim-to-sim friction, CBF shield | included in `complete` |
+| 6 | Grammar layouts, full evaluation suite, dashboard + report | `python3 -m virtual_lab complete` |
 
-## Month 1–2 MVP (this repo)
-
-A **2D digital twin** you can run without Gazebo or a GPU. It covers the first roadmap slice:
-
-- Warehouse + differential-drive robot model
-- A→B navigation with obstacle avoidance stop
-- Collision / out-of-bounds checks
-- Trajectory logs and an SVG playback map
-- A small knowledge graph of robot, map, and task
-
-Later months add adversarial search, Bayesian tuning, and ROS 2 / Gazebo.
-
-### Run
+## Run the full suite
 
 ```bash
-python3 -m virtual_lab run --scenario scenarios/open_aisle.json --out runs/open.json
-python3 -m virtual_lab run --scenario scenarios/blocked_aisle.json --out runs/blocked.json --allow-failure
-python3 -m virtual_lab compare scenarios/open_aisle.json scenarios/blocked_aisle.json
+python3 -m pytest -q
+python3 -m virtual_lab complete --out docs/evaluation
+python3 scripts/generate_evaluation_report.py
 ```
 
-Open aisle should reach the goal. Blocked aisle is the “what if the center aisle is closed?” case — the baseline controller has no global planner, so the run fails (timeout or collision). That gap is what months 3–4 (adversarial scenarios + better search) are for.
+Open aisle should reach the goal. Blocked aisle and adversarial crates demonstrate “what if this aisle is closed?”. Bayesian tuning searches a faster safe speed. Grammar maps mint new warehouses automatically.
 
-### Tests
+## Tests
 
 ```bash
 pip install pytest

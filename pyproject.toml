@@ -1,7 +1,7 @@
 [project]
 name = "virtual-lab"
 version = "0.1.0"
-description = "Month 1–2 MVP: 2D digital twin, navigation, collision logging"
+description = "Virtual robotics testing platform: digital twin, adversarial search, Bayesian tuning, RL, CBF safety"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []

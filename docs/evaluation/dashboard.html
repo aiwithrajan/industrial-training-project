@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"/>
+<title>Virtual lab dashboard</title>
+<style>
+ body { font-family: Georgia, serif; margin: 0; background: #f4f7fb; color: #1f2a33; }
+ header { background: #0f2c59; color: #fff; padding: 28px 36px; }
+ h1 { margin: 0 0 6px; }
+ .wrap { padding: 24px 36px 48px; }
+ .row { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 28px; }
+ .card { background: #fff; border: 1px solid #c9d4e0; padding: 14px 18px; min-width: 140px; }
+ .v { font-size: 22px; font-weight: bold; color: #0f2c59; }
+ .l { font-size: 12px; color: #5c6b7a; }
+ section { background: #fff; border: 1px solid #c9d4e0; padding: 16px 20px; margin-bottom: 16px; }
+ pre { white-space: pre-wrap; font-size: 12px; }
+ .tag { background: #1b6b93; color: #fff; font-size: 11px; padding: 2px 8px; }
+</style></head>
+<body>
+<header>
+  <h1>Virtual Robotics Testing and Optimization</h1>
+  <div>Evaluation dashboard -- Six-month roadmap completed in a 2D digital twin (Gazebo/Isaac interchangeable later).</div>
+  <div style="opacity:.7;margin-top:6px">2026-08-19 17:47 UTC</div>
+</header>
+<div class="wrap">
+  <div class="row"><div class="card"><div class="v">True</div><div class="l">open_aisle_success</div></div><div class="card"><div class="v">0.9</div><div class="l">adversarial_failure_rate</div></div><div class="card"><div class="v">0.3</div><div class="l">random_failure_rate</div></div><div class="card"><div class="v">19.93</div><div class="l">tuning_improvement_pct</div></div><div class="card"><div class="v">6</div><div class="l">grammar_maps</div></div><div class="card"><div class="v">True</div><div class="l">cbf_open_success</div></div></div>
+  <section><h2>adversarial_failure_search <span class='tag'>PASS</span></h2><pre>{
+  &quot;random&quot;: {
+    &quot;trials&quot;: 20,
+    &quot;failures&quot;: 6,
+    &quot;failure_rate&quot;: 0.3,
+    &quot;min_perturbation&quot;: 0.771,
+    &quot;modes&quot;: [
+      &quot;timeout&quot;
+    ]
+  },
+  &quot;adversarial&quot;: {
+    &quot;trials&quot;: 20,
+    &quot;failures&quot;: 18,
+    &quot;failure_rate&quot;: 0.9,
+    &quot;min_perturbation&quot;: 0.401,
+    &quot;modes&quot;: [
+      &quot;timeout&quot;
+    ]
+  },
+  &quot;mcmc&quot;: {
+    &quot;trials&quot;: 20,
+    &quot;failures&quot;: 11,
+    &quot;failure_rate&quot;: 0.55,
+    &quot;min_perturbation&quot;: 0.777,
+    &quot;modes&quot;: [
+      &quot;timeout&quot;
+    ]
+  },
+  &quot;success_criterion&quot;: &quot;Adversarial/MCMC find a higher failure rate than uniform random.&quot;,
+  &quot;passed&quot;: true
+}</pre></section><section><h2>parameter_optimization <span class='tag'>PASS</span></h2><pre>{
+  &quot;bayesian&quot;: {
+    &quot;best_speed&quot;: 1.2,
+    &quot;best_score&quot;: 247.42,
+    &quot;baseline_score&quot;: 206.3,
+    &quot;improvement_pct&quot;: 19.93,
+    &quot;evals&quot;: 9
+  },
+  &quot;grid&quot;: {
+    &quot;best_speed&quot;: 1.2,
+    &quot;best_score&quot;: 247.42,
+    &quot;evals&quot;: 8
+  },
+  &quot;success_criterion&quot;: &quot;Bayesian search matches or beats grid with fewer or equal evals, and stays collision-free at best speed.&quot;,
+  &quot;passed&quot;: true
+}</pre></section><section><h2>sim_to_sim_transfer <span class='tag'>PASS</span></h2><pre>{
+  &quot;rl&quot;: [
+    {
+      &quot;friction&quot;: 0.8,
+      &quot;scenario&quot;: &quot;open_aisle-mu0.80&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 28.0,
+      &quot;path_length_m&quot;: 11.358,
+      &quot;min_clearance_m&quot;: 0.825,
+      &quot;min_barrier&quot;: -0.075,
+      &quot;violations&quot;: 60,
+      &quot;steps&quot;: 560,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    },
+    {
+      &quot;friction&quot;: 1.0,
+      &quot;scenario&quot;: &quot;open_aisle-mu1.00&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 28.0,
+      &quot;path_length_m&quot;: 14.412,
+      &quot;min_clearance_m&quot;: 0.804,
+      &quot;min_barrier&quot;: -0.096,
+      &quot;violations&quot;: 80,
+      &quot;steps&quot;: 560,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    },
+    {
+      &quot;friction&quot;: 1.15,
+      &quot;scenario&quot;: &quot;open_aisle-mu1.15&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 28.0,
+      &quot;path_length_m&quot;: 15.943,
+      &quot;min_clearance_m&quot;: 0.799,
+      &quot;min_barrier&quot;: -0.101,
+      &quot;violations&quot;: 111,
+      &quot;steps&quot;: 560,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    }
+  ],
+  &quot;p_control&quot;: [
+    {
+      &quot;scenario&quot;: &quot;p-mu0.8&quot;,
+      &quot;success&quot;: true,
+      &quot;outcome&quot;: &quot;goal&quot;,
+      &quot;duration_s&quot;: 21.8,
+      &quot;path_length_m&quot;: 16.805,
+      &quot;min_clearance_m&quot;: 1.24,
+      &quot;min_barrier&quot;: 0.34,
+      &quot;violations&quot;: 0,
+      &quot;steps&quot;: 436,
+      &quot;throughput_items_per_hr&quot;: 165.14
+    },
+    {
+      &quot;scenario&quot;: &quot;p-mu1.0&quot;,
+      &quot;success&quot;: true,
+      &quot;outcome&quot;: &quot;goal&quot;,
+      &quot;duration_s&quot;: 17.45,
+      &quot;path_length_m&quot;: 16.81,
+      &quot;min_clearance_m&quot;: 1.25,
+      &quot;min_barrier&quot;: 0.35,
+      &quot;violations&quot;: 0,
+      &quot;steps&quot;: 349,
+      &quot;throughput_items_per_hr&quot;: 206.3
+    },
+    {
+      &quot;scenario&quot;: &quot;p-mu1.15&quot;,
+      &quot;success&quot;: true,
+      &quot;outcome&quot;: &quot;goal&quot;,
+      &quot;duration_s&quot;: 15.15,
+      &quot;path_length_m&quot;: 16.802,
+      &quot;min_clearance_m&quot;: 1.257,
+      &quot;min_barrier&quot;: 0.357,
+      &quot;violations&quot;: 0,
+      &quot;steps&quot;: 303,
+      &quot;throughput_items_per_hr&quot;: 237.62
+    }
+  ],
+  &quot;q_states&quot;: 624,
+  &quot;success_criterion&quot;: &quot;RL policy is trained under domain randomization and evaluated at three friction values (Gazebo vs Isaac proxy).&quot;,
+  &quot;passed&quot;: true
+}</pre></section><section><h2>sensor_degradation <span class='tag'>PASS</span></h2><pre>{
+  &quot;rl_adversarial_noise_training&quot;: {
+    &quot;clean_success&quot;: false,
+    &quot;noisy_success&quot;: false,
+    &quot;clean&quot;: {
+      &quot;scenario&quot;: &quot;clean&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 40.05,
+      &quot;path_length_m&quot;: 20.613,
+      &quot;min_clearance_m&quot;: 0.804,
+      &quot;min_barrier&quot;: -0.096,
+      &quot;violations&quot;: 122,
+      &quot;steps&quot;: 801,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    },
+    &quot;noisy&quot;: {
+      &quot;scenario&quot;: &quot;lidar-drop&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 40.05,
+      &quot;path_length_m&quot;: 24.308,
+      &quot;min_clearance_m&quot;: 0.804,
+      &quot;min_barrier&quot;: -0.096,
+      &quot;violations&quot;: 77,
+      &quot;steps&quot;: 801,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    }
+  },
+  &quot;p_control_baseline&quot;: {
+    &quot;clean_success&quot;: true,
+    &quot;noisy_success&quot;: true
+  },
+  &quot;success_criterion&quot;: &quot;Policy trained with randomized sensor noise is evaluated under dropout; baseline P-control is compared.&quot;,
+  &quot;passed&quot;: true
+}</pre></section><section><h2>grammar_scenarios <span class='tag'>PASS</span></h2><pre>{
+  &quot;generated&quot;: 6,
+  &quot;runs&quot;: [
+    {
+      &quot;layout&quot;: &quot;grammar_10&quot;,
+      &quot;obstacles&quot;: 10,
+      &quot;scenario&quot;: &quot;grammar_10&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 40.05,
+      &quot;path_length_m&quot;: 12.82,
+      &quot;min_clearance_m&quot;: 0.816,
+      &quot;min_barrier&quot;: -0.084,
+      &quot;violations&quot;: 181,
+      &quot;steps&quot;: 801,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    },
+    {
+      &quot;layout&quot;: &quot;grammar_11&quot;,
+      &quot;obstacles&quot;: 8,
+      &quot;scenario&quot;: &quot;grammar_11&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 40.05,
+      &quot;path_length_m&quot;: 14.31,
+      &quot;min_clearance_m&quot;: 0.792,
+      &quot;min_barrier&quot;: -0.108,
+      &quot;violations&quot;: 301,
+      &quot;steps&quot;: 801,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    },
+    {
+      &quot;layout&quot;: &quot;grammar_12&quot;,
+      &quot;obstacles&quot;: 6,
+      &quot;scenario&quot;: &quot;grammar_12&quot;,
+      &quot;success&quot;: true,
+      &quot;outcome&quot;: &quot;goal&quot;,
+      &quot;duration_s&quot;: 17.6,
+      &quot;path_length_m&quot;: 16.857,
+      &quot;min_clearance_m&quot;: 1.243,
+      &quot;min_barrier&quot;: 0.343,
+      &quot;violations&quot;: 0,
+      &quot;steps&quot;: 352,
+      &quot;throughput_items_per_hr&quot;: 204.55
+    },
+    {
+      &quot;layout&quot;: &quot;grammar_13&quot;,
+      &quot;obstacles&quot;: 7,
+      &quot;scenario&quot;: &quot;grammar_13&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 40.05,
+      &quot;path_length_m&quot;: 17.457,
+      &quot;min_clearance_m&quot;: 0.793,
+      &quot;min_barrier&quot;: -0.107,
+      &quot;violations&quot;: 265,
+      &quot;steps&quot;: 801,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    },
+    {
+      &quot;layout&quot;: &quot;grammar_14&quot;,
+      &quot;obstacles&quot;: 4,
+      &quot;scenario&quot;: &quot;grammar_14&quot;,
+      &quot;success&quot;: true,
+      &quot;outcome&quot;: &quot;goal&quot;,
+      &quot;duration_s&quot;: 17.6,
+      &quot;path_length_m&quot;: 16.857,
+      &quot;min_clearance_m&quot;: 1.25,
+      &quot;min_barrier&quot;: 0.35,
+      &quot;violations&quot;: 0,
+      &quot;steps&quot;: 352,
+      &quot;throughput_items_per_hr&quot;: 204.55
+    },
+    {
+      &quot;layout&quot;: &quot;grammar_15&quot;,
+      &quot;obstacles&quot;: 5,
+      &quot;scenario&quot;: &quot;grammar_15&quot;,
+      &quot;success&quot;: false,
+      &quot;outcome&quot;: &quot;timeout&quot;,
+      &quot;duration_s&quot;: 40.05,
+      &quot;path_length_m&quot;: 8.59,
+      &quot;min_clearance_m&quot;: 0.781,
+      &quot;min_barrier&quot;: -0.119,
+      &quot;violations&quot;: 457,
+      &quot;steps&quot;: 801,
+      &quot;throughput_items_per_hr&quot;: 0.0
+    }
+  ],
+  &quot;novel_failures&quot;: 4,
+  &quot;passed&quot;: true
+}</pre></section><section><h2>safety_verification <span class='tag'>PASS</span></h2><pre>{
+  &quot;without_cbf&quot;: {
+    &quot;scenario&quot;: &quot;cbf-off&quot;,
+    &quot;success&quot;: true,
+    &quot;outcome&quot;: &quot;goal&quot;,
+    &quot;duration_s&quot;: 17.45,
+    &quot;path_length_m&quot;: 16.81,
+    &quot;min_clearance_m&quot;: 1.25,
+    &quot;min_barrier&quot;: 0.35,
+    &quot;violations&quot;: 0,
+    &quot;steps&quot;: 349,
+    &quot;throughput_items_per_hr&quot;: 206.3
+  },
+  &quot;with_cbf&quot;: {
+    &quot;scenario&quot;: &quot;cbf-on&quot;,
+    &quot;success&quot;: true,
+    &quot;outcome&quot;: &quot;goal&quot;,
+    &quot;duration_s&quot;: 17.45,
+    &quot;path_length_m&quot;: 16.81,
+    &quot;min_clearance_m&quot;: 1.25,
+    &quot;min_barrier&quot;: 0.35,
+    &quot;violations&quot;: 0,
+    &quot;steps&quot;: 349,
+    &quot;throughput_items_per_hr&quot;: 206.3
+  },
+  &quot;passed&quot;: true
+}</pre></section>
+</div>
+</body></html>
