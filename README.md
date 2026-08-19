@@ -16,7 +16,8 @@ python3 -m virtual_lab run --backend twin --scenario scenarios/open_aisle.json
 | [Executive Summary.pdf](Executive%20Summary.pdf) | Company brief |
 | [docs/One-Page Pitch.pdf](docs/One-Page%20Pitch.pdf) | One-page ask |
 | [docs/Evaluation Report.pdf](docs/Evaluation%20Report.pdf) | Experiment results |
-| [docs/SIMULATORS.md](docs/SIMULATORS.md) | How to add Gazebo/ROS 2 and Isaac Sim |
+| [docs/Demo Slides.pdf](docs/Demo%20Slides.pdf) | 8-slide company presentation |
+| [docs/demo/index.html](docs/demo/index.html) | Interactive path playback |
 
 ## Roadmap coverage
 
@@ -35,7 +36,16 @@ python3 -m virtual_lab complete --out docs/evaluation
 python3 scripts/generate_evaluation_report.py
 ```
 
-Open aisle should reach the goal. Blocked aisle and adversarial crates demonstrate “what if this aisle is closed?”. Bayesian tuning searches a faster safe speed. Grammar maps mint new warehouses automatically.
+Open aisle should reach the goal. Blocked aisle and adversarial crates demonstrate “what if the center aisle is closed?”.
+
+## Live demo (slides + playback)
+
+```bash
+python3 -m virtual_lab demo
+python3 scripts/generate_slides.py
+```
+
+Open `docs/demo/index.html` and click **Play both runs**. Pre-exported Gazebo worlds land in `simulators/worlds/` (`gz sim simulators/worlds/open_aisle.sdf` after Gazebo is installed).
 
 ## Tests
 

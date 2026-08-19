@@ -13,6 +13,7 @@ from virtual_lab.grammar import generate_layout
 from virtual_lab.knowledge_graph import twin_graph
 from virtual_lab.mcmc import mcmc_search
 from virtual_lab.models import Scenario
+from virtual_lab.demo import build_demo
 from virtual_lab.pipeline import main_complete
 from virtual_lab.simulator import simulate, write_run
 from virtual_lab.visualize import to_svg
@@ -92,6 +93,13 @@ def cmd_complete(args: argparse.Namespace) -> int:
     return main_complete(args.out, quick=args.quick)
 
 
+def cmd_demo(args: argparse.Namespace) -> int:
+    path = build_demo()
+    print(f"demo: {path}")
+    print("open that file in a browser, then click Play both runs")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Virtual Robotics Testing & Optimization Platform (6-month 2D twin)."
@@ -137,6 +145,9 @@ def main(argv: list[str] | None = None) -> int:
 
     doc = sub.add_parser("doctor", help="Show which simulators are installed")
     doc.set_defaults(func=cmd_doctor)
+
+    demo = sub.add_parser("demo", help="Write interactive HTML demo + Gazebo/Isaac worlds")
+    demo.set_defaults(func=cmd_demo)
 
     args = parser.parse_args(argv)
     return int(args.func(args))

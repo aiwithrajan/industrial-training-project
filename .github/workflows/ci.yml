@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "cursor/**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install pytest
+      - name: Test
+        run: python3 -m pytest -q
+      - name: Demo pack
+        run: python3 -m virtual_lab demo
+      - name: Doctor
+        run: python3 -m virtual_lab doctor
