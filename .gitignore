@@ -3,3 +3,6 @@ __pycache__/
 .pytest_cache/
 *.pyc
 .venv/
+simulators/ros2_ws/build/
+simulators/ros2_ws/install/
+simulators/ros2_ws/log/

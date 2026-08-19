@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 
 from virtual_lab.adversarial import adversarial_search, random_search, summarize_search
+from virtual_lab.backends import get_backend, status
+from virtual_lab.backends.base import BackendNotAvailable
 from virtual_lab.bayesopt import bayesian_optimize
 from virtual_lab.grammar import generate_layout
 from virtual_lab.knowledge_graph import twin_graph
@@ -24,7 +26,11 @@ def cmd_run(args: argparse.Namespace) -> int:
     scenario = Scenario.load(args.scenario)
     if args.cbf:
         scenario = scenario.evolved(use_cbf=True)
-    result = simulate(scenario)
+    try:
+        result = get_backend(args.backend).simulate(scenario)
+    except BackendNotAvailable as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
     out = Path(args.out)
     write_run(result, out)
     to_svg(scenario, result, out.with_suffix(".svg"))
@@ -75,6 +81,13 @@ def cmd_generate(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_doctor(_args: argparse.Namespace) -> int:
+    info = status()
+    print(json.dumps(info, indent=2))
+    print("Install missing engines: docs/SIMULATORS.md")
+    return 0
+
+
 def cmd_complete(args: argparse.Namespace) -> int:
     return main_complete(args.out, quick=args.quick)
 
@@ -90,6 +103,12 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--out", default=str(_repo_root() / "runs" / "last.json"))
     run.add_argument("--allow-failure", action="store_true")
     run.add_argument("--cbf", action="store_true")
+    run.add_argument(
+        "--backend",
+        default="twin",
+        choices=("twin", "gazebo", "isaac"),
+        help="Physics engine. twin=2D (default). gazebo=ROS 2. isaac=NVIDIA GPU.",
+    )
     run.set_defaults(func=cmd_run)
 
     cmp_ = sub.add_parser("compare", help="Run several scenarios")
@@ -115,6 +134,9 @@ def main(argv: list[str] | None = None) -> int:
     done.add_argument("--out", default=str(_repo_root() / "docs" / "evaluation"))
     done.add_argument("--quick", action="store_true")
     done.set_defaults(func=cmd_complete)
+
+    doc = sub.add_parser("doctor", help="Show which simulators are installed")
+    doc.set_defaults(func=cmd_doctor)
 
     args = parser.parse_args(argv)
     return int(args.func(args))

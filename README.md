@@ -2,7 +2,12 @@
 
 Industrial training project: a virtual test lab that finds robot failures in simulation before hardware is at risk.
 
-The **six-month roadmap is implemented on a 2D digital twin** in this repo (no GPU or Gazebo required). Gazebo / Isaac Sim can replace the physics engine later; search, tuning, RL, and safety stay the same.
+The **six-month algorithms run on a 2D twin by default**. Plug in **Gazebo + ROS 2** or **Isaac Sim** with `--backend` when those engines are installed. See [docs/SIMULATORS.md](docs/SIMULATORS.md).
+
+```bash
+python3 -m virtual_lab doctor
+python3 -m virtual_lab run --backend twin --scenario scenarios/open_aisle.json
+```
 
 ## Documents
 
@@ -11,7 +16,7 @@ The **six-month roadmap is implemented on a 2D digital twin** in this repo (no G
 | [Executive Summary.pdf](Executive%20Summary.pdf) | Company brief |
 | [docs/One-Page Pitch.pdf](docs/One-Page%20Pitch.pdf) | One-page ask |
 | [docs/Evaluation Report.pdf](docs/Evaluation%20Report.pdf) | Experiment results |
-| [docs/evaluation/dashboard.html](docs/evaluation/dashboard.html) | Interactive KPI dashboard |
+| [docs/SIMULATORS.md](docs/SIMULATORS.md) | How to add Gazebo/ROS 2 and Isaac Sim |
 
 ## Roadmap coverage
 
