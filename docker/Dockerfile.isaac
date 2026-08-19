@@ -1,0 +1,8 @@
+# NVIDIA Isaac Sim (GPU required). See https://catalog.ngc.nvidia.com/orgs/nvidia/containers/isaac-sim
+# You must accept NVIDIA terms and have nvidia-container-toolkit installed.
+FROM nvcr.io/nvidia/isaac-sim:4.5.0
+
+WORKDIR /ws
+COPY . /ws
+ENV PYTHONPATH=/ws
+CMD ["bash", "-lc", "python3 -m virtual_lab doctor"]

@@ -1,0 +1,32 @@
+services:
+  gazebo:
+    profiles: ["gazebo"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.gazebo
+    volumes:
+      - .:/ws
+    working_dir: /ws
+    environment:
+      - PYTHONPATH=/ws
+      - DISPLAY=${DISPLAY:-}
+    command: >
+      bash -lc "source /opt/ros/humble/setup.bash &&
+      python3 -m virtual_lab run --backend gazebo
+      --scenario scenarios/open_aisle.json --allow-failure"
+
+  isaac:
+    profiles: ["isaac"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.isaac
+    gpus: all
+    volumes:
+      - .:/ws
+    working_dir: /ws
+    environment:
+      - PYTHONPATH=/ws
+      - ACCEPT_EULA=Y
+    command: >
+      python3 -m virtual_lab run --backend isaac
+      --scenario scenarios/open_aisle.json --allow-failure

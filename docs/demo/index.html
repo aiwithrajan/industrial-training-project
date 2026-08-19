@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>VRTOP live demo</title>
+<style>
+  body { margin:0; font-family: Georgia, serif; background:#f4f7fb; color:#1f2a33; }
+  header { background:#0f2c59; color:#fff; padding:20px 28px; }
+  h1 { margin:0 0 4px; font-size:22px; }
+  .sub { opacity:.85; font-size:14px; }
+  .wrap { padding:20px 28px 40px; }
+  .kpis { display:flex; gap:10px; flex-wrap:wrap; margin:12px 0 20px; }
+  .card { background:#fff; border:1px solid #c9d4e0; padding:10px 14px; min-width:120px; }
+  .v { font-size:20px; color:#0f2c59; font-weight:bold; }
+  .l { font-size:11px; color:#5c6b7a; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  canvas { width:100%; background:#fff; border:1px solid #c9d4e0; }
+  button { background:#1b6b93; color:#fff; border:0; padding:8px 14px; cursor:pointer; font:inherit; }
+  pre { background:#0f2c59; color:#d7e4f0; padding:12px; overflow:auto; font-size:12px; }
+  @media (max-width: 900px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Virtual Robotics Testing live demo</h1>
+  <div class="sub">Open aisle reaches the goal. Blocked aisle is the what-if failure.</div>
+</header>
+<div class="wrap">
+  <div class="kpis" id="kpis"></div>
+  <p><button type="button" id="play">Play both runs</button></p>
+  <div class="grid">
+    <div><h3>open_aisle</h3><canvas id="c-open_aisle" width="640" height="400"></canvas><p id="s-open_aisle"></p></div>
+    <div><h3>blocked_aisle</h3><canvas id="c-blocked_aisle" width="640" height="400"></canvas><p id="s-blocked_aisle"></p></div>
+  </div>
+  <h3>Run it</h3>
+<pre>python3 -m virtual_lab doctor
+python3 -m virtual_lab run --scenario scenarios/open_aisle.json
+python3 -m virtual_lab search
+gz sim simulators/worlds/open_aisle.sdf</pre>
+</div>
+<script>
+const DATA = {"kpis": {"open_aisle_success": true, "adversarial_failure_rate": 0.9, "random_failure_rate": 0.3, "tuning_improvement_pct": 19.93, "grammar_maps": 6, "cbf_open_success": true}, "runs": {"open_aisle": {"summary": {"scenario": "open_aisle", "success": true, "outcome": "goal", "duration_s": 17.45, "path_length_m": 16.81, "min_clearance_m": 1.25, "min_barrier": 0.35, "violations": 0, "steps": 349, "throughput_items_per_hr": 206.3}, "width": 20, "height": 12, "radius": 0.35, "start": [1.2, 6.0], "goal": [18.5, 6.0], "obstacles": [[4.0, 0.0, 5.2, 4.5], [4.0, 7.5, 5.2, 12.0], [10.0, 0.0, 11.2, 4.5], [10.0, 7.5, 11.2, 12.0], [16.0, 0.0, 17.2, 4.5], [16.0, 7.5, 17.2, 12.0]], "path": [[1.25, 6.0], [1.4500000000000002, 6.0], [1.6500000000000004, 6.0], [1.8500000000000005, 6.0], [2.0500000000000003, 6.0], [2.2499999999999996, 6.0], [2.449999999999999, 6.0], [2.649999999999998, 6.0], [2.8499999999999974, 6.0], [3.0499999999999967, 6.0], [3.249999999999996, 6.0], [3.4499999999999953, 6.0], [3.6499999999999946, 6.0], [3.849999999999994, 6.0], [4.049999999999994, 6.0], [4.249999999999993, 6.0], [4.449999999999992, 6.0], [4.6499999999999915, 6.0], [4.849999999999991, 6.0], [5.04999999999999, 6.0], [5.249999999999989, 6.0], [5.449999999999989, 6.0], [5.649999999999988, 6.0], [5.849999999999987, 6.0], [6.0499999999999865, 6.0], [6.249999999999986, 6.0], [6.449999999999985, 6.0], [6.649999999999984, 6.0], [6.849999999999984, 6.0], [7.049999999999983, 6.0], [7.249999999999982, 6.0], [7.4499999999999815, 6.0], [7.649999999999981, 6.0], [7.84999999999998, 6.0], [8.04999999999998, 6.0], [8.249999999999982, 6.0], [8.449999999999985, 6.0], [8.649999999999988, 6.0], [8.84999999999999, 6.0], [9.049999999999994, 6.0], [9.249999999999996, 6.0], [9.45, 6.0], [9.650000000000002, 6.0], [9.850000000000005, 6.0], [10.050000000000008, 6.0], [10.25000000000001, 6.0], [10.450000000000014, 6.0], [10.650000000000016, 6.0], [10.85000000000002, 6.0], [11.050000000000022, 6.0], [11.250000000000025, 6.0], [11.450000000000028, 6.0], [11.65000000000003, 6.0], [11.850000000000033, 6.0], [12.050000000000036, 6.0], [12.250000000000039, 6.0], [12.450000000000042, 6.0], [12.650000000000045, 6.0], [12.850000000000048, 6.0], [13.05000000000005, 6.0], [13.250000000000053, 6.0], [13.450000000000056, 6.0], [13.650000000000059, 6.0], [13.850000000000062, 6.0], [14.050000000000065, 6.0], [14.250000000000068, 6.0], [14.45000000000007, 6.0], [14.650000000000073, 6.0], [14.850000000000076, 6.0], [15.050000000000079, 6.0], [15.250000000000082, 6.0], [15.450000000000085, 6.0], [15.650000000000087, 6.0], [15.85000000000009, 6.0], [16.050000000000093, 6.0], [16.250000000000096, 6.0], [16.4500000000001, 6.0], [16.6500000000001, 6.0], [16.850000000000104, 6.0], [17.050000000000104, 6.0], [17.233879691358112, 6.0], [17.39444094072032, 6.0], [17.534640843201984, 6.0], [17.657061494099683, 6.0], [17.763957543960885, 6.0], [17.85729772302494, 6.0], [17.93880109980099, 6.0], [18.009968741565856, 6.0]]}, "blocked_aisle": {"summary": {"scenario": "blocked_aisle", "success": false, "outcome": "timeout", "duration_s": 25.0, "path_length_m": 7.85, "min_clearance_m": 0.35, "min_barrier": -0.55, "violations": 354, "steps": 500, "throughput_items_per_hr": 0.0}, "width": 20, "height": 12, "radius": 0.35, "start": [1.2, 6.0], "goal": [18.5, 6.0], "obstacles": [[4.0, 0.0, 5.2, 4.5], [4.0, 7.5, 5.2, 12.0], [9.4, 3.5, 10.8, 8.5], [10.0, 0.0, 11.2, 4.5], [10.0, 7.5, 11.2, 12.0], [16.0, 0.0, 17.2, 4.5], [16.0, 7.5, 17.2, 12.0]], "path": [[1.25, 6.0], [1.5500000000000003, 6.0], [1.8500000000000005, 6.0], [2.15, 6.0], [2.449999999999999, 6.0], [2.749999999999998, 6.0], [3.0499999999999967, 6.0], [3.3499999999999956, 6.0], [3.6499999999999946, 6.0], [3.9499999999999935, 6.0], [4.249999999999993, 6.0], [4.549999999999992, 6.0], [4.849999999999991, 6.0], [5.14999999999999, 6.0], [5.449999999999989, 6.0], [5.749999999999988, 6.0], [6.0499999999999865, 6.0], [6.349999999999985, 6.0], [6.649999999999984, 6.0], [6.949999999999983, 6.0], [7.249999999999982, 6.0], [7.549999999999981, 6.0], [7.84999999999998, 6.0], [8.14999999999998, 6.0], [8.449999999999985, 6.0], [8.74999999999999, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0], [9.049999999999994, 6.0]]}}, "worlds": {"open_aisle": "/workspace/simulators/worlds/open_aisle.sdf", "blocked_aisle": "/workspace/simulators/worlds/blocked_aisle.sdf"}};
+function kpi() {
+  const box = document.getElementById('kpis');
+  Object.entries(DATA.kpis || {}).forEach(([k,v]) => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = '<div class="v">'+v+'</div><div class="l">'+k+'</div>';
+    box.appendChild(d);
+  });
+}
+function draw(name, t) {
+  const run = DATA.runs[name];
+  const c = document.getElementById('c-'+name);
+  const ctx = c.getContext('2d');
+  const sx = c.width / (run.width + 2);
+  const sy = c.height / (run.height + 2);
+  const X = x => (x+1)*sx;
+  const Y = y => c.height - (y+1)*sy;
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle = '#f4f7fb';
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.strokeStyle = '#0f2c59';
+  ctx.strokeRect(X(0), Y(run.height), run.width*sx, run.height*sy);
+  ctx.fillStyle = '#1b6b93';
+  run.obstacles.forEach(b => {
+    ctx.fillRect(X(b[0]), Y(b[3]), (b[2]-b[0])*sx, (b[3]-b[1])*sy);
+  });
+  ctx.fillStyle = '#d4a017';
+  ctx.beginPath(); ctx.arc(X(run.start[0]), Y(run.start[1]), 5, 0, 7); ctx.fill();
+  ctx.fillStyle = '#0f2c59';
+  ctx.beginPath(); ctx.arc(X(run.goal[0]), Y(run.goal[1]), 6, 0, 7); ctx.fill();
+  const n = Math.max(1, Math.floor(run.path.length * t));
+  ctx.strokeStyle = run.summary.success ? '#1b6b93' : '#c44536';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  run.path.slice(0,n).forEach((p,i) => i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])));
+  ctx.stroke();
+  if (n) {
+    const p = run.path[n-1];
+    ctx.beginPath(); ctx.arc(X(p[0]), Y(p[1]), run.radius*sx, 0, 7); ctx.fillStyle = ctx.strokeStyle; ctx.fill();
+  }
+  document.getElementById('s-'+name).textContent = run.summary.outcome+' / '+run.summary.duration_s+'s';
+}
+function play() {
+  const t0 = performance.now();
+  function frame(now) {
+    const t = Math.min(1, (now-t0)/2800);
+    draw('open_aisle', t);
+    draw('blocked_aisle', t);
+    if (t<1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+kpi();
+draw('open_aisle', 1);
+draw('blocked_aisle', 1);
+document.getElementById('play').onclick = play;
+</script>
+</body></html>

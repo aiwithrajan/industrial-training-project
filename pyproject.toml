@@ -1,0 +1,18 @@
+[project]
+name = "virtual-lab"
+version = "0.1.0"
+description = "Virtual robotics testing platform: digital twin, adversarial search, Bayesian tuning, RL, CBF safety"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+docs = ["reportlab>=5.0.0"]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+virtual-lab = "virtual_lab.__main__:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

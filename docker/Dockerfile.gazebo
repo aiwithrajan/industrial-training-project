@@ -1,0 +1,19 @@
+# ROS 2 Humble + Gazebo Fortress (no GPU required)
+FROM osrf/ros:humble-desktop
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-humble-ros-gz \
+    ros-humble-ros-gz-sim \
+    ros-humble-ros-gz-bridge \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /ws
+COPY . /ws
+ENV PYTHONPATH=/ws
+SHELL ["/bin/bash", "-c"]
+RUN source /opt/ros/humble/setup.bash \
+    && cd /ws/simulators/ros2_ws \
+    && colcon build --symlink-install || true
+
+CMD ["bash", "-lc", "source /opt/ros/humble/setup.bash && source simulators/ros2_ws/install/setup.bash 2>/dev/null; python3 -m virtual_lab doctor"]

@@ -1,0 +1,187 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="open_aisle">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <scene>
+      <ambient>0.6 0.6 0.65 1</ambient>
+      <background>0.85 0.88 0.92 1</background>
+    </scene>
+    <model name="floor">
+      <static>true</static>
+      <pose>10.000 6.000 0 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>20.000 12.000 0.05</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>20.000 12.000 0.05</size></box></geometry>
+          <material><ambient>0.75 0.75 0.78 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_0">
+      <static>true</static>
+      <pose>10.000 -0.100 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>20.400 0.200 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>20.400 0.200 1.400</size></box></geometry>
+          <material><ambient>0.2 0.25 0.35 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_1">
+      <static>true</static>
+      <pose>10.000 12.100 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>20.400 0.200 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>20.400 0.200 1.400</size></box></geometry>
+          <material><ambient>0.2 0.25 0.35 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_2">
+      <static>true</static>
+      <pose>-0.100 6.000 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.200 12.000 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.200 12.000 1.400</size></box></geometry>
+          <material><ambient>0.2 0.25 0.35 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="wall_3">
+      <static>true</static>
+      <pose>20.100 6.000 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.200 12.000 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.200 12.000 1.400</size></box></geometry>
+          <material><ambient>0.2 0.25 0.35 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="robot">
+      <pose>1.200 6.000 0.350 0 0 0.0000</pose>
+      <link name="base">
+        <inertial>
+          <mass>4.0</mass>
+          <inertia><ixx>0.05</ixx><iyy>0.05</iyy><izz>0.08</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <collision name="col"><geometry><cylinder><radius>0.350</radius><length>0.18</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.350</radius><length>0.18</length></cylinder></geometry>
+          <material><ambient>0.77 0.27 0.21 1</ambient></material>
+        </visual>
+        <sensor name="lidar" type="gpu_lidar">
+          <pose>0 0 0.12 0 0 0</pose>
+          <lidar>
+            <scan><horizontal><samples>120</samples><min_angle>-1.57</min_angle><max_angle>1.57</max_angle></horizontal></scan>
+            <range><min>0.08</min><max>12</max></range>
+          </lidar>
+          <always_on>1</always_on>
+          <visualize>true</visualize>
+          <update_rate>10</update_rate>
+        </sensor>
+      </link>
+      <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+        <frame_id>robot/base</frame_id>
+        <child_frame_id>robot/base</child_frame_id>
+        <topic>/cmd_vel</topic>
+        <wheel_separation>0.300</wheel_separation>
+        <wheel_radius>0.05</wheel_radius>
+        <max_linear_acceleration>2</max_linear_acceleration>
+        <min_linear_acceleration>-2</min_linear_acceleration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <odom_topic>/odom</odom_topic>
+        <tf_topic>/tf</tf_topic>
+      </plugin>
+    </model>
+    <model name="goal">
+      <static>true</static>
+      <pose>18.500 6.000 0.02 0 0 0</pose>
+      <link name="link">
+        <visual name="vis">
+          <geometry><cylinder><radius>0.25</radius><length>0.02</length></cylinder></geometry>
+          <material><ambient>0.83 0.63 0.09 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="shelf_0">
+      <static>true</static>
+      <pose>4.600 2.250 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>1.200 4.500 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>1.200 4.500 1.400</size></box></geometry>
+          <material><ambient>0.12 0.42 0.58 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="shelf_1">
+      <static>true</static>
+      <pose>4.600 9.750 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>1.200 4.500 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>1.200 4.500 1.400</size></box></geometry>
+          <material><ambient>0.12 0.42 0.58 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="shelf_2">
+      <static>true</static>
+      <pose>10.600 2.250 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>1.200 4.500 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>1.200 4.500 1.400</size></box></geometry>
+          <material><ambient>0.12 0.42 0.58 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="shelf_3">
+      <static>true</static>
+      <pose>10.600 9.750 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>1.200 4.500 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>1.200 4.500 1.400</size></box></geometry>
+          <material><ambient>0.12 0.42 0.58 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="shelf_4">
+      <static>true</static>
+      <pose>16.600 2.250 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>1.200 4.500 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>1.200 4.500 1.400</size></box></geometry>
+          <material><ambient>0.12 0.42 0.58 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+    <model name="shelf_5">
+      <static>true</static>
+      <pose>16.600 9.750 0.700 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>1.200 4.500 1.400</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>1.200 4.500 1.400</size></box></geometry>
+          <material><ambient>0.12 0.42 0.58 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
