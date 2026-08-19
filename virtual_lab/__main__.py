@@ -100,6 +100,13 @@ def cmd_demo(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_ui(args: argparse.Namespace) -> int:
+    from virtual_lab.ui.server import serve
+
+    serve(host=args.host, port=args.port)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Virtual Robotics Testing & Optimization Platform (6-month 2D twin)."
@@ -148,6 +155,11 @@ def main(argv: list[str] | None = None) -> int:
 
     demo = sub.add_parser("demo", help="Write interactive HTML demo + Gazebo/Isaac worlds")
     demo.set_defaults(func=cmd_demo)
+
+    ui = sub.add_parser("ui", help="Open the live lab UI (show the robot working)")
+    ui.add_argument("--host", default="0.0.0.0")
+    ui.add_argument("--port", type=int, default=8765)
+    ui.set_defaults(func=cmd_ui)
 
     args = parser.parse_args(argv)
     return int(args.func(args))

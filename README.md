@@ -4,10 +4,18 @@ Industrial training project: a virtual test lab that finds robot failures in sim
 
 The **six-month algorithms run on a 2D twin by default**. Plug in **Gazebo + ROS 2** or **Isaac Sim** with `--backend` when those engines are installed. See [docs/SIMULATORS.md](docs/SIMULATORS.md).
 
+## Show it working (UI)
+
 ```bash
-python3 -m virtual_lab doctor
-python3 -m virtual_lab run --backend twin --scenario scenarios/open_aisle.json
+python3 -m virtual_lab ui
 ```
+
+Open **http://127.0.0.1:8765**
+
+1. Choose `open_aisle` → **Run scenario** (robot reaches the gold goal).
+2. Choose `blocked_aisle` → **Run scenario** (gets stuck — the what-if).
+3. Optional: **Find failures** and **Tune speed** on the same screen.
+
 
 ## Documents
 

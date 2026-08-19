@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>VRTOP Live Lab</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <header class="top">
+    <div>
+      <div class="kicker">INDUSTRIAL TRAINING PROJECT</div>
+      <h1>Virtual Robotics Testing <span>Live Lab</span></h1>
+    </div>
+    <div class="engines" id="engines"></div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel">
+      <h2>Show it working</h2>
+      <label>Scenario
+        <select id="scenario"></select>
+      </label>
+      <p class="notes" id="notes"></p>
+      <label>Speed <span id="speedVal">1.00</span>
+        <input id="speed" type="range" min="0.4" max="1.2" step="0.05" value="1.0"/>
+      </label>
+      <label>Friction <span id="fricVal">1.00</span>
+        <input id="friction" type="range" min="0.6" max="1.2" step="0.05" value="1.0"/>
+      </label>
+      <label>Sensor noise <span id="noiseVal">0.00</span>
+        <input id="noise" type="range" min="0" max="0.2" step="0.01" value="0"/>
+      </label>
+      <label class="check"><input id="cbf" type="checkbox"/> CBF safety shield</label>
+      <div class="btns">
+        <button id="run" class="primary" type="button">Run scenario</button>
+        <button id="replay" type="button" disabled>Replay</button>
+      </div>
+      <hr/>
+      <button id="search" type="button">Find failures (adversarial)</button>
+      <button id="tune" type="button">Tune speed (Bayesian)</button>
+      <p class="hint">Use <b>Run scenario</b> during a demo. Open aisle succeeds. Blocked aisle gets stuck.</p>
+    </aside>
+
+    <section class="stage">
+      <canvas id="view" width="900" height="540"></canvas>
+      <div class="legend">
+        <span class="dot gold"></span> start
+        <span class="dot navy"></span> goal
+        <span class="dot teal"></span> shelves
+        <span class="dot red"></span> robot
+      </div>
+    </section>
+
+    <aside class="panel metrics">
+      <div id="badge" class="badge idle">Idle</div>
+      <dl id="stats"></dl>
+      <h2>Failure search</h2>
+      <div id="bars" class="bars"></div>
+      <h2>Tuning</h2>
+      <p id="tuneOut" class="muted">Not run yet.</p>
+      <h2>Log</h2>
+      <pre id="log"></pre>
+    </aside>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
